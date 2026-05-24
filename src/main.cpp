@@ -1,7 +1,11 @@
-#include <iostream>
+#include "simulation/Simulation.h"
 
 int main()
 {
-    std::cout << "Project Started!" << std::endl;
+
+    Simulation simulation;
+
+    simulation.run();
+
     return 0;
 }
