@@ -13,3 +13,4 @@ add_executable(
     src/simulation/Simulation.cpp
     src/core/ImpulseHandler.cpp
 )
+target_compile_options(solver PRIVATE /bigobj)

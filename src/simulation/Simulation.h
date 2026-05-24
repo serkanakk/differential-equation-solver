@@ -12,7 +12,11 @@ class Simulation
 private:
     std::vector<State> states;
 
+    DifferentialSystem &system;
+
 public:
+    Simulation(DifferentialSystem &sys);
+
     void run();
 
     const std::vector<State> &getStates() const;

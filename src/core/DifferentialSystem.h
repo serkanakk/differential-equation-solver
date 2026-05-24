@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../external/exprtk.hpp"
+#include "../../external/exprtk.hpp"
 
 class DifferentialSystem
 {
