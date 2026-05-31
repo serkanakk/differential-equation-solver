@@ -13,6 +13,8 @@ int main()
 
     database.connect("../../database/solver.db");
 
+    int currentUserId = -1;
+
     int choice;
 
     std::cout << "\n===== DIFFERENTIAL SOLVER =====\n";
@@ -78,6 +80,52 @@ int main()
         std::cout
             << "Login successful!"
             << std::endl;
+
+        currentUserId =
+            database.getUserId(
+                username);
+
+        std::cout
+            << "User ID: "
+            << currentUserId
+            << std::endl;
+    }
+
+    int userChoice;
+
+    while (true)
+    {
+        std::cout
+            << "\n===== USER MENU =====\n";
+
+        std::cout
+            << "1 - Solve Equation\n";
+
+        std::cout
+            << "2 - My History\n";
+
+        std::cout
+            << "3 - Logout\n";
+
+        std::cin >> userChoice;
+
+        if (userChoice == 2)
+        {
+            database.showUserSolutions(
+                currentUserId);
+
+            continue;
+        }
+
+        if (userChoice == 3)
+        {
+            return 0;
+        }
+
+        if (userChoice == 1)
+        {
+            break;
+        }
     }
 
     std::string eq1;
@@ -132,6 +180,13 @@ int main()
         methodName);
 
     simulation.run();
+
+    database.saveSolution(
+        currentUserId,
+        eq1,
+        eq2,
+        eq3,
+        methodName);
 
     delete solver;
 
