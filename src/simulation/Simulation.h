@@ -3,8 +3,9 @@
 #include <vector>
 
 #include "../core/State.h"
-#include "../core/RK4Solver.h"
+// #include "../core/RK4Solver.h"
 #include "../core/DifferentialSystem.h"
+#include "../core/Solver.h"
 
 class Simulation
 {
@@ -14,8 +15,12 @@ private:
 
     DifferentialSystem &system;
 
+    Solver *solver;
+
 public:
-    Simulation(DifferentialSystem &sys);
+    Simulation(
+        DifferentialSystem &sys,
+        Solver *selectedSolver);
 
     void run();
 

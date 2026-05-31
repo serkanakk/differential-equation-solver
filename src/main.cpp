@@ -1,6 +1,10 @@
 #include "simulation/Simulation.h"
 
 #include <iostream>
+#include "core/Solver.h"
+#include "core/EulerSolver.h"
+#include "core/HeunSolver.h"
+#include "core/RK4Solver.h"
 
 int main()
 {
@@ -23,9 +27,35 @@ int main()
         eq2,
         eq3);
 
-    Simulation simulation(system);
+    int choice;
+
+    std::cout << "\nChoose Method:\n";
+    std::cout << "1 - Euler\n";
+    std::cout << "2 - Heun\n";
+    std::cout << "3 - RK4\n";
+
+    std::cin >> choice;
+
+    Solver *solver = nullptr;
+
+    if (choice == 1)
+    {
+        solver = new EulerSolver();
+    }
+    else if (choice == 2)
+    {
+        solver = new HeunSolver();
+    }
+    else
+    {
+        solver = new RK4Solver();
+    }
+
+    Simulation simulation(
+        system,
+        solver);
 
     simulation.run();
-
+    delete solver;
     return 0;
 }

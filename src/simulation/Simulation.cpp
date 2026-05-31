@@ -5,15 +5,16 @@
 #include <iostream>
 #include <fstream>
 
-Simulation::Simulation(DifferentialSystem &sys)
-    : system(sys)
+Simulation::Simulation(
+    DifferentialSystem &sys,
+    Solver *selectedSolver)
+    : system(sys),
+      solver(selectedSolver)
 {
 }
 
 void Simulation::run()
 {
-
-    RK4Solver solver;
 
     ImpulseHandler impulseHandler;
 
@@ -33,7 +34,7 @@ void Simulation::run()
     {
 
         State next =
-            solver.step(current, h, system);
+            solver->step(current, h, system);
 
         if (impulseHandler.checkImpulse(next))
         {
