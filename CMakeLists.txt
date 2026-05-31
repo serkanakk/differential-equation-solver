@@ -13,5 +13,6 @@ add_executable(
     src/simulation/Simulation.cpp
     src/core/ImpulseHandler.cpp
     src/core/EulerSolver.cpp
+    src/core/HeunSolver.cpp
 )
 target_compile_options(solver PRIVATE /bigobj)
