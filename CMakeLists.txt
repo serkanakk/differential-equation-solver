@@ -12,5 +12,6 @@ add_executable(
     src/core/RK4Solver.cpp
     src/simulation/Simulation.cpp
     src/core/ImpulseHandler.cpp
+    src/core/EulerSolver.cpp
 )
 target_compile_options(solver PRIVATE /bigobj)
