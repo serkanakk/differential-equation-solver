@@ -7,14 +7,19 @@
 
 Simulation::Simulation(
     DifferentialSystem &sys,
-    Solver *selectedSolver)
+    Solver *selectedSolver,
+    const std::string &method)
     : system(sys),
-      solver(selectedSolver)
+      solver(selectedSolver),
+      methodName(method)
 {
 }
 
 void Simulation::run()
 {
+    std::cout << "\nMethod: "
+              << methodName
+              << std::endl;
 
     ImpulseHandler impulseHandler;
 
@@ -64,6 +69,7 @@ void Simulation::run()
     }
 
     std::ofstream file("results.csv");
+    file << "Method," << methodName << "\n\n";
 
     file << "step,time,x,y,z\n";
 

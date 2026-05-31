@@ -37,23 +37,28 @@ int main()
     std::cin >> choice;
 
     Solver *solver = nullptr;
+    std::string methodName;
 
     if (choice == 1)
     {
         solver = new EulerSolver();
+        methodName = "Euler";
     }
     else if (choice == 2)
     {
         solver = new HeunSolver();
+        methodName = "Heun";
     }
     else
     {
         solver = new RK4Solver();
+        methodName = "RK4";
     }
 
     Simulation simulation(
         system,
-        solver);
+        solver,
+        methodName);
 
     simulation.run();
     delete solver;

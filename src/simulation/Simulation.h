@@ -1,9 +1,8 @@
 #pragma once
 
 #include <vector>
-
+#include <string>
 #include "../core/State.h"
-// #include "../core/RK4Solver.h"
 #include "../core/DifferentialSystem.h"
 #include "../core/Solver.h"
 
@@ -17,10 +16,13 @@ private:
 
     Solver *solver;
 
+    std::string methodName;
+
 public:
     Simulation(
         DifferentialSystem &sys,
-        Solver *selectedSolver);
+        Solver *selectedSolver,
+        const std::string &method);
 
     void run();
 
