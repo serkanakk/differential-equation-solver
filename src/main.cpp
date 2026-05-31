@@ -6,9 +6,15 @@
 #include "core/HeunSolver.h"
 #include "core/RK4Solver.h"
 #include "database/DatabaseManager.h"
+#include "server/WebServer.h"
 
 int main()
 {
+    WebServer server;
+    server.start();
+
+    return 0;
+
     DatabaseManager database;
 
     database.connect("../../database/solver.db");

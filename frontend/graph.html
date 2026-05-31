@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Differential Equation Solver</h1>
+
+        <div class="login-box">
+
+            <h2>Solution Graph</h2>
+
+            <div id="graph"></div>
+
+            <br>
+
+            <button onclick="location.href='history.html'">
+                Back
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const trace = {
+            x: [0, 1, 2, 3, 4, 5],
+            y: [1, 2, 3, 5, 8, 13],
+            mode: 'lines+markers',
+            name: 'X(t)'
+        };
+
+        Plotly.newPlot(
+            'graph',
+            [trace]
+        );
+
+    </script>
+
+</body>
+
+</html>

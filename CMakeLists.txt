@@ -1,3 +1,8 @@
+include_directories(
+    src
+    external
+)
+
 cmake_minimum_required(VERSION 3.10)
 
 project(DifferentialEquationSolver)
@@ -17,6 +22,8 @@ add_executable(
     src/simulation/Simulation.cpp
 
     src/database/DatabaseManager.cpp
+
+    src/server/WebServer.cpp
 
     external/sqlite3.c
 )
