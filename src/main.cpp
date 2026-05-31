@@ -5,9 +5,80 @@
 #include "core/EulerSolver.h"
 #include "core/HeunSolver.h"
 #include "core/RK4Solver.h"
+#include "database/DatabaseManager.h"
 
 int main()
 {
+    DatabaseManager database;
+
+    database.connect("../../database/solver.db");
+
+    int choice;
+
+    std::cout << "\n===== DIFFERENTIAL SOLVER =====\n";
+    std::cout << "1 - Register\n";
+    std::cout << "2 - Login\n";
+    std::cout << "3 - Exit\n";
+
+    std::cin >> choice;
+
+    if (choice == 3)
+    {
+        return 0;
+    }
+
+    if (choice == 1)
+    {
+        std::string username;
+        std::string email;
+        std::string password;
+
+        std::cout << "Username: ";
+        std::cin >> username;
+
+        std::cout << "Email: ";
+        std::cin >> email;
+
+        std::cout << "Password: ";
+        std::cin >> password;
+
+        database.registerUser(
+            username,
+            email,
+            password);
+
+        return 0;
+    }
+
+    if (choice == 2)
+    {
+        std::string username;
+        std::string password;
+
+        std::cout << "Username: ";
+        std::cin >> username;
+
+        std::cout << "Password: ";
+        std::cin >> password;
+
+        bool loginSuccess =
+            database.loginUser(
+                username,
+                password);
+
+        if (!loginSuccess)
+        {
+            std::cout
+                << "Login failed!"
+                << std::endl;
+
+            return 0;
+        }
+
+        std::cout
+            << "Login successful!"
+            << std::endl;
+    }
 
     std::string eq1;
     std::string eq2;
@@ -27,24 +98,24 @@ int main()
         eq2,
         eq3);
 
-    int choice;
+    int methodChoice;
 
     std::cout << "\nChoose Method:\n";
     std::cout << "1 - Euler\n";
     std::cout << "2 - Heun\n";
     std::cout << "3 - RK4\n";
 
-    std::cin >> choice;
+    std::cin >> methodChoice;
 
     Solver *solver = nullptr;
     std::string methodName;
 
-    if (choice == 1)
+    if (methodChoice == 1)
     {
         solver = new EulerSolver();
         methodName = "Euler";
     }
-    else if (choice == 2)
+    else if (methodChoice == 2)
     {
         solver = new HeunSolver();
         methodName = "Heun";
@@ -61,6 +132,8 @@ int main()
         methodName);
 
     simulation.run();
+
     delete solver;
+
     return 0;
 }
