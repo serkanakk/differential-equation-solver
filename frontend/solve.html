@@ -19,13 +19,13 @@
 
             <h2>Solve Equation</h2>
 
-            <input type="text" placeholder="f1(x,y,z)">
+            <input type="text" id="equation1" placeholder="f1(x,y,z)">
 
-            <input type="text" placeholder="f2(x,y,z)">
+            <input type="text" id="equation2" placeholder="f2(x,y,z)">
 
-            <input type="text" placeholder="f3(x,y,z)">
+            <input type="text" id="equation3" placeholder="f3(x,y,z)">
 
-            <select>
+            <select id="method">
                 <option>Euler</option>
                 <option>Heun</option>
                 <option>RK4</option>
@@ -33,7 +33,7 @@
 
             <br><br>
 
-            <button>
+            <button id="solveBtn">
                 Solve
             </button>
 
@@ -47,6 +47,7 @@
 
     </div>
 
+    <script src="js/app.js"></script>
 </body>
 
 </html>
