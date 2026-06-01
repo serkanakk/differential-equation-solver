@@ -103,6 +103,8 @@ document.addEventListener(
             solveButton.addEventListener(
                 "click",
                 async () => {
+
+                    console.log("SOLVE CLICKED");
                     const equation1 =
                         document.getElementById(
                             "equation1").value;
@@ -139,6 +141,7 @@ document.addEventListener(
                         await response.text();
 
                     alert(result);
+
                 });
         }
     });
