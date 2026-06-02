@@ -10,14 +10,18 @@
 
 #include <sstream>
 #include <iostream>
+#include <string>
+#include <fstream>
 
 void WebServer::start()
 {
+
     httplib::Server server;
     DatabaseManager database;
 
     database.connect(
         "../../database/solver.db");
+    int currentUserId = -1;
 
     server.Get(
         "/",
@@ -83,6 +87,10 @@ void WebServer::start()
 
             if (success)
             {
+                currentUserId =
+                    database.getUserId(
+                        username);
+
                 res.set_content(
                     "Login successful",
                     "text/plain");
@@ -254,6 +262,16 @@ void WebServer::start()
 
             delete solver;
 
+            if (currentUserId != -1)
+            {
+                database.saveSolution(
+                    currentUserId,
+                    eq1,
+                    eq2,
+                    eq3,
+                    method);
+            }
+
             res.set_content(
                 result.str(),
                 "text/plain");
@@ -262,6 +280,50 @@ void WebServer::start()
         << "Server started on http://localhost:8080"
         << std::endl;
 
+    server.Get(
+        "/history",
+        [&](const httplib::Request &req,
+            httplib::Response &res)
+        {
+            res.set_header(
+                "Access-Control-Allow-Origin",
+                "*");
+
+            if (currentUserId == -1)
+            {
+                res.set_content(
+                    "[]",
+                    "application/json");
+
+                return;
+            }
+
+            res.set_content(
+                database.getUserSolutionsJson(
+                    currentUserId),
+                "application/json");
+        });
+
+    server.Get(
+        "/results",
+        [&](const httplib::Request &req,
+            httplib::Response &res)
+        {
+            std::ifstream file(
+                "results.csv");
+
+            std::stringstream buffer;
+
+            buffer << file.rdbuf();
+
+            res.set_header(
+                "Access-Control-Allow-Origin",
+                "*");
+
+            res.set_content(
+                buffer.str(),
+                "text/plain");
+        });
     server.listen(
         "0.0.0.0",
         8080);

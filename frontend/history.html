@@ -19,26 +19,8 @@
 
             <h2>My History</h2>
 
-            <div>
-                <p><strong>Method:</strong> RK4</p>
-                <p><strong>Equation 1:</strong> x+y</p>
-                <p><strong>Equation 2:</strong> x-z</p>
-                <p><strong>Equation 3:</strong> y*z</p>
-                <button onclick="location.href='graph.html'">
-                    View Graph
-                </button>
-                <hr>
-            </div>
+            <div id="historyContainer">
 
-            <div>
-                <p><strong>Method:</strong> Euler</p>
-                <p><strong>Equation 1:</strong> x+y</p>
-                <p><strong>Equation 2:</strong> x-y</p>
-                <p><strong>Equation 3:</strong> y*z</p>
-                <button onclick="location.href='graph.html'">
-                    View Graph
-                </button>
-                <hr>
             </div>
 
             <button onclick="location.href='dashboard.html'">
@@ -48,7 +30,45 @@
         </div>
 
     </div>
+    <script>
+        async function loadHistory() {
 
+            const response =
+                await fetch(
+                    "http://localhost:8080/history");
+
+            const data =
+                await response.json();
+
+            const container =
+                document.getElementById(
+                    "historyContainer");
+
+            let html = "";
+
+            data.forEach(solution => {
+
+                html += `
+                <div>
+                    <p><strong>Method:</strong> ${solution.method}</p>
+                    <p><strong>Equation 1:</strong> ${solution.equation1}</p>
+                    <p><strong>Equation 2:</strong> ${solution.equation2}</p>
+                    <p><strong>Equation 3:</strong> ${solution.equation3}</p>
+
+                    <button onclick="location.href='graph.html'">
+                        View Graph
+                    </button>
+
+                    <hr>
+                </div>
+            `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        loadHistory();
+    </script>
 </body>
 
 </html>

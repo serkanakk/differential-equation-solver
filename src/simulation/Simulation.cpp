@@ -1,3 +1,4 @@
+
 #include "Simulation.h"
 
 #include "../core/ImpulseHandler.h"
@@ -68,7 +69,7 @@ void Simulation::run()
             << std::endl;
     }
 
-    std::ofstream file("results.csv");
+        std::ofstream file("results.csv");
     file << "Method," << methodName << "\n\n";
 
     file << "step,time,x,y,z\n";

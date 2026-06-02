@@ -1,147 +1,94 @@
 console.log("APP JS LOADED");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        const loginButton =
-            document.getElementById(
-                "loginBtn");
+document.addEventListener("DOMContentLoaded", () => {
 
-        if (loginButton) {
-            loginButton.addEventListener(
-                "click",
-                async () => {
-                    const username =
-                        document.getElementById(
-                            "username").value;
+    const loginButton = document.getElementById("loginBtn");
 
-                    const password =
-                        document.getElementById(
-                            "password").value;
+    if (loginButton) {
+        loginButton.addEventListener("click", async (event) => {
+            event.preventDefault();
 
-                    const response =
-                        await fetch(
-                            "http://localhost:8080/login",
-                            {
-                                method: "POST",
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
 
-                                headers:
-                                {
-                                    "Content-Type":
-                                        "application/x-www-form-urlencoded"
-                                },
+            const response = await fetch("http://localhost:8080/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `username=${username}&password=${password}`
+            });
 
-                                body:
-                                    `username=${username}&password=${password}`
-                            });
+            const result = await response.text();
 
-                    const result =
-                        await response.text();
+            alert(result);
 
-                    alert(result);
+            if (result === "Login successful") {
+                window.location.href = "dashboard.html";
+            }
+        });
+    }
 
-                    if (result === "Login successful") {
-                        window.location.href =
-                            "dashboard.html";
-                    }
-                });
-        }
+    const registerButton = document.getElementById("registerBtn");
 
-        const registerButton =
-            document.getElementById(
-                "registerBtn");
+    if (registerButton) {
+        registerButton.addEventListener("click", async (event) => {
+            event.preventDefault();
 
-        if (registerButton) {
-            registerButton.addEventListener(
-                "click",
-                async () => {
-                    const username =
-                        document.getElementById(
-                            "registerUsername").value;
+            const username = document.getElementById("registerUsername").value;
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
 
-                    const email =
-                        document.getElementById(
-                            "registerEmail").value;
+            const response = await fetch("http://localhost:8080/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `username=${username}&email=${email}&password=${password}`
+            });
 
-                    const password =
-                        document.getElementById(
-                            "registerPassword").value;
+            const result = await response.text();
 
-                    const response =
-                        await fetch(
-                            "http://localhost:8080/register",
-                            {
-                                method: "POST",
+            alert(result);
 
-                                headers:
-                                {
-                                    "Content-Type":
-                                        "application/x-www-form-urlencoded"
-                                },
+            if (result === "Registration successful") {
+                window.location.href = "login.html";
+            }
+        });
+    }
 
-                                body:
-                                    `username=${username}&email=${email}&password=${password}`
-                            });
+    const solveButton = document.getElementById("solveBtn");
 
-                    const result =
-                        await response.text();
+    if (solveButton) {
+        solveButton.addEventListener("click", async (event) => {
 
-                    alert(result);
+            event.preventDefault();
 
-                    if (result === "Registration successful") {
-                        window.location.href =
-                            "login.html";
-                    }
-                });
-        }
+            console.log("SOLVE CLICKED");
 
-        const solveButton =
-            document.getElementById(
-                "solveBtn");
+            const equation1 = document.getElementById("equation1").value;
+            const equation2 = document.getElementById("equation2").value;
+            const equation3 = document.getElementById("equation3").value;
+            const method = document.getElementById("method").value;
 
-        if (solveButton) {
-            solveButton.addEventListener(
-                "click",
-                async () => {
+            const response = await fetch("http://localhost:8080/solve", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `equation1=${equation1}&equation2=${equation2}&equation3=${equation3}&method=${method}`
+            });
 
-                    console.log("SOLVE CLICKED");
-                    const equation1 =
-                        document.getElementById(
-                            "equation1").value;
+            const result = await response.text();
 
-                    const equation2 =
-                        document.getElementById(
-                            "equation2").value;
+            console.log("Backend response:", result);
 
-                    const equation3 =
-                        document.getElementById(
-                            "equation3").value;
+            const resultBox =
+                document.getElementById("resultBox");
 
-                    const method =
-                        document.getElementById(
-                            "method").value;
-
-                    const response =
-                        await fetch(
-                            "http://localhost:8080/solve",
-                            {
-                                method: "POST",
-
-                                headers:
-                                {
-                                    "Content-Type":
-                                        "application/x-www-form-urlencoded"
-                                },
-
-                                body:
-                                    `equation1=${equation1}&equation2=${equation2}&equation3=${equation3}&method=${method}`
-                            });
-
-                    const result =
-                        await response.text();
-
-                    alert(result);
-
-                });
-        }
-    });
+            if (resultBox) {
+                resultBox.innerText = result;
+            }
+        });
+    }
+});

@@ -290,3 +290,77 @@ void DatabaseManager::showUserSolutions(
 
     sqlite3_finalize(statement);
 }
+
+std::string DatabaseManager::getUserSolutionsJson(
+    int userId)
+{
+    std::string json = "[";
+    std::string sql =
+        "SELECT id,equation1,equation2,equation3,method,createdAt "
+        "FROM Solutions WHERE userId=" +
+        std::to_string(userId) +
+        ";";
+
+    sqlite3_stmt *statement;
+
+    int result =
+        sqlite3_prepare_v2(
+            db,
+            sql.c_str(),
+            -1,
+            &statement,
+            nullptr);
+
+    if (result != SQLITE_OK)
+    {
+        return "[]";
+    }
+    bool first = true;
+
+    while (sqlite3_step(statement) == SQLITE_ROW)
+    {
+        if (!first)
+        {
+            json += ",";
+        }
+
+        first = false;
+
+        json += "{";
+
+        json += "\"id\":" +
+                std::to_string(
+                    sqlite3_column_int(statement, 0));
+
+        json += ",\"equation1\":\"" +
+                std::string(
+                    reinterpret_cast<const char *>(
+                        sqlite3_column_text(statement, 1))) +
+                "\"";
+
+        json += ",\"equation2\":\"" +
+                std::string(
+                    reinterpret_cast<const char *>(
+                        sqlite3_column_text(statement, 2))) +
+                "\"";
+
+        json += ",\"equation3\":\"" +
+                std::string(
+                    reinterpret_cast<const char *>(
+                        sqlite3_column_text(statement, 3))) +
+                "\"";
+
+        json += ",\"method\":\"" +
+                std::string(
+                    reinterpret_cast<const char *>(
+                        sqlite3_column_text(statement, 4))) +
+                "\"";
+
+        json += "}";
+    }
+    json += "]";
+
+    sqlite3_finalize(statement);
+
+    return json;
+}

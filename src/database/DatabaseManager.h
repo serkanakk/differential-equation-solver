@@ -39,4 +39,7 @@ public:
 
     void showUserSolutions(
         int userId);
+
+    std::string getUserSolutionsJson(
+        int userId);
 };

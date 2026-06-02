@@ -35,17 +35,68 @@
 
     <script>
 
-        const trace = {
-            x: [0, 1, 2, 3, 4, 5],
-            y: [1, 2, 3, 5, 8, 13],
-            mode: 'lines+markers',
-            name: 'X(t)'
-        };
+        async function loadGraph() {
 
-        Plotly.newPlot(
-            'graph',
-            [trace]
-        );
+            const response =
+                await fetch(
+                    "http://localhost:8080/results");
+
+            const csv =
+                await response.text();
+
+            const lines =
+                csv.trim().split("\n");
+
+            const time = [];
+            const xValues = [];
+            const yValues = [];
+            const zValues = [];
+
+            for (let i = 3; i < lines.length; i++) {
+
+                const parts =
+                    lines[i].split(",");
+
+                time.push(
+                    parseFloat(parts[1]));
+
+                xValues.push(
+                    parseFloat(parts[2]));
+
+                yValues.push(
+                    parseFloat(parts[3]));
+
+                zValues.push(
+                    parseFloat(parts[4]));
+            }
+
+            const traceX = {
+                x: time,
+                y: xValues,
+                mode: 'lines',
+                name: 'X(t)'
+            };
+
+            const traceY = {
+                x: time,
+                y: yValues,
+                mode: 'lines',
+                name: 'Y(t)'
+            };
+
+            const traceZ = {
+                x: time,
+                y: zValues,
+                mode: 'lines',
+                name: 'Z(t)'
+            };
+
+            Plotly.newPlot(
+                'graph',
+                [traceX, traceY, traceZ]);
+        }
+
+        loadGraph();
 
     </script>
 
