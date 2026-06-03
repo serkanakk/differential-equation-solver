@@ -364,3 +364,151 @@ std::string DatabaseManager::getUserSolutionsJson(
 
     return json;
 }
+int DatabaseManager::getLastSolutionId()
+{
+    std::string sql =
+        "SELECT MAX(id) FROM Solutions;";
+
+    sqlite3_stmt *statement;
+
+    int result =
+        sqlite3_prepare_v2(
+            db,
+            sql.c_str(),
+            -1,
+            &statement,
+            nullptr);
+
+    if (result != SQLITE_OK)
+    {
+        return -1;
+    }
+
+    result = sqlite3_step(statement);
+
+    int solutionId = -1;
+
+    if (result == SQLITE_ROW)
+    {
+        solutionId =
+            sqlite3_column_int(
+                statement,
+                0);
+    }
+
+    sqlite3_finalize(statement);
+
+    return solutionId;
+}
+bool DatabaseManager::saveSolutionResult(
+    int solutionId,
+    int step,
+    double time,
+    double x,
+    double y,
+    double z)
+{
+    std::string sql =
+        "INSERT INTO SolutionResults("
+        "solutionId,step,time,x,y,z)"
+        " VALUES(" +
+        std::to_string(solutionId) + "," +
+        std::to_string(step) + "," +
+        std::to_string(time) + "," +
+        std::to_string(x) + "," +
+        std::to_string(y) + "," +
+        std::to_string(z) +
+        ");";
+
+        char *errorMessage = nullptr;
+
+    int result =
+        sqlite3_exec(
+            db,
+            sql.c_str(),
+            nullptr,
+            nullptr,
+            &errorMessage);
+
+    if (result != SQLITE_OK)
+    {
+        std::cout
+            << "SQL ERROR: "
+            << errorMessage
+            << std::endl;
+
+        sqlite3_free(errorMessage);
+
+        return false;
+    }
+
+    return true;
+}
+std::string DatabaseManager::getSolutionResultsJson(
+    int solutionId)
+{
+    std::string json = "[";
+
+    std::string sql =
+        "SELECT step,time,x,y,z "
+        "FROM SolutionResults WHERE solutionId=" +
+        std::to_string(solutionId) +
+        " ORDER BY step;";
+
+    sqlite3_stmt *statement;
+
+    int result =
+        sqlite3_prepare_v2(
+            db,
+            sql.c_str(),
+            -1,
+            &statement,
+            nullptr);
+
+    if (result != SQLITE_OK)
+    {
+        return "[]";
+    }
+
+    bool first = true;
+
+    while (sqlite3_step(statement) == SQLITE_ROW)
+    {
+        if (!first)
+        {
+            json += ",";
+        }
+
+        first = false;
+
+        json += "{";
+
+        json += "\"step\":" +
+                std::to_string(
+                    sqlite3_column_int(statement, 0));
+
+        json += ",\"time\":" +
+                std::to_string(
+                    sqlite3_column_double(statement, 1));
+
+        json += ",\"x\":" +
+                std::to_string(
+                    sqlite3_column_double(statement, 2));
+
+        json += ",\"y\":" +
+                std::to_string(
+                    sqlite3_column_double(statement, 3));
+
+        json += ",\"z\":" +
+                std::to_string(
+                    sqlite3_column_double(statement, 4));
+
+        json += "}";
+    }
+
+    json += "]";
+
+    sqlite3_finalize(statement);
+
+    return json;
+}

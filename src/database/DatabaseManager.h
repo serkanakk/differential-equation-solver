@@ -42,4 +42,16 @@ public:
 
     std::string getUserSolutionsJson(
         int userId);
+    int getLastSolutionId();
+
+    bool saveSolutionResult(
+        int solutionId,
+        int step,
+        double time,
+        double x,
+        double y,
+        double z);
+
+    std::string getSolutionResultsJson(
+        int solutionId);
 };

@@ -21,7 +21,8 @@
 
             <h2>Solution Graph</h2>
 
-            <div id="graph"></div>
+            <div id="graph" style="width:100%; height:500px;">
+            </div>
 
             <br>
 
@@ -37,38 +38,39 @@
 
         async function loadGraph() {
 
+            const params =
+                new URLSearchParams(
+                    window.location.search);
+
+            const solutionId =
+                params.get("id");
+
             const response =
                 await fetch(
-                    "http://localhost:8080/results");
+                    `http://localhost:8080/results?id=${solutionId}`);
 
-            const csv =
-                await response.text();
+            const data =
+                await response.json();
 
-            const lines =
-                csv.trim().split("\n");
+            console.log("Solution ID:", solutionId);
+            console.log("Data:", data);
+            console.log("Length:", data.length);
 
             const time = [];
             const xValues = [];
             const yValues = [];
             const zValues = [];
 
-            for (let i = 3; i < lines.length; i++) {
+            data.forEach(point => {
 
-                const parts =
-                    lines[i].split(",");
+                time.push(point.time);
 
-                time.push(
-                    parseFloat(parts[1]));
+                xValues.push(point.x);
 
-                xValues.push(
-                    parseFloat(parts[2]));
+                yValues.push(point.y);
 
-                yValues.push(
-                    parseFloat(parts[3]));
-
-                zValues.push(
-                    parseFloat(parts[4]));
-            }
+                zValues.push(point.z);
+            });
 
             const traceX = {
                 x: time,
@@ -91,9 +93,24 @@
                 name: 'Z(t)'
             };
 
+            console.log(time);
+            console.log(xValues);
+            console.log(yValues);
+            console.log(zValues);
+
             Plotly.newPlot(
                 'graph',
-                [traceX, traceY, traceZ]);
+                [traceX, traceY, traceZ],
+                {
+                    title: 'Solution Graph',
+                    xaxis: {
+                        title: 'Time'
+                    },
+                    yaxis: {
+                        title: 'Value'
+                    }
+                }
+            );
         }
 
         loadGraph();

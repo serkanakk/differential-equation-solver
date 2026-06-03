@@ -270,6 +270,22 @@ void WebServer::start()
                     eq2,
                     eq3,
                     method);
+
+                int solutionId =
+                    database.getLastSolutionId();
+
+                for (size_t i = 0;
+                     i < states.size();
+                     i++)
+                {
+                    database.saveSolutionResult(
+                        solutionId,
+                        static_cast<int>(i),
+                        i * 0.01,
+                        states[i].x,
+                        states[i].y,
+                        states[i].z);
+                }
             }
 
             res.set_content(
@@ -309,20 +325,27 @@ void WebServer::start()
         [&](const httplib::Request &req,
             httplib::Response &res)
         {
-            std::ifstream file(
-                "results.csv");
-
-            std::stringstream buffer;
-
-            buffer << file.rdbuf();
-
             res.set_header(
                 "Access-Control-Allow-Origin",
                 "*");
 
+            if (!req.has_param("id"))
+            {
+                res.set_content(
+                    "[]",
+                    "application/json");
+
+                return;
+            }
+
+            int solutionId =
+                std::stoi(
+                    req.get_param_value("id"));
+
             res.set_content(
-                buffer.str(),
-                "text/plain");
+                database.getSolutionResultsJson(
+                    solutionId),
+                "application/json");
         });
     server.listen(
         "0.0.0.0",
