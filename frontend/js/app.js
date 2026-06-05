@@ -1,3 +1,7 @@
+window.onbeforeunload = function () {
+    console.log("PAGE RELOADING");
+};
+
 console.log("APP JS LOADED");
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -81,6 +85,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.text();
 
+            const solutionIdMatch =
+                result.match(
+                    /SOLUTION_ID:(\d+)/);
+
+            console.log(result);
+
+            if (!solutionIdMatch) {
+                alert("NO SOLUTION ID");
+                return;
+            }
+
+            const solutionId =
+                solutionIdMatch[1];
+
+            console.log(
+                "Solution ID:",
+                solutionId);
+
             console.log("Backend response:", result);
 
             const resultBox =
@@ -89,6 +111,56 @@ document.addEventListener("DOMContentLoaded", () => {
             if (resultBox) {
                 resultBox.innerText = result;
             }
+
+            const graphResponse =
+                await fetch(
+                    `http://localhost:8080/results?id=${solutionId}`);
+
+            const graphData =
+                await graphResponse.json();
+
+            const time = [];
+            const xValues = [];
+            const yValues = [];
+            const zValues = [];
+
+            graphData.forEach(point => {
+
+                time.push(point.time);
+
+                xValues.push(point.x);
+
+                yValues.push(point.y);
+
+                zValues.push(point.z);
+            });
+
+            const traceX = {
+                x: time,
+                y: xValues,
+                mode: 'lines',
+                name: 'X(t)'
+            };
+
+            const traceY = {
+                x: time,
+                y: yValues,
+                mode: 'lines',
+                name: 'Y(t)'
+            };
+
+            const traceZ = {
+                x: time,
+                y: zValues,
+                mode: 'lines',
+                name: 'Z(t)'
+            };
+
+            Plotly.newPlot(
+                'graph',
+                [traceX, traceY, traceZ]);
+            alert("GRAPH FINISHED");
+            return;
         });
     }
 });

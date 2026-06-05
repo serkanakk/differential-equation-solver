@@ -31,7 +31,7 @@
 
             <br><br>
 
-            <button onclick="location.href='login.html'">
+            <button onclick="logout()">
                 Logout
             </button>
 
@@ -39,6 +39,19 @@
 
     </div>
 
+
+    <script>
+
+        async function logout() {
+            await fetch(
+                "http://localhost:8080/logout");
+
+            location.href =
+                "login.html";
+        }
+
+    </script>
 </body>
+
 
 </html>

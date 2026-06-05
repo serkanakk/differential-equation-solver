@@ -286,6 +286,10 @@ void WebServer::start()
                         states[i].y,
                         states[i].z);
                 }
+
+                result
+                    << "\nSOLUTION_ID:"
+                    << solutionId;
             }
 
             res.set_content(
@@ -318,6 +322,22 @@ void WebServer::start()
                 database.getUserSolutionsJson(
                     currentUserId),
                 "application/json");
+        });
+
+    server.Get(
+        "/logout",
+        [&](const httplib::Request &req,
+            httplib::Response &res)
+        {
+            currentUserId = -1;
+
+            res.set_header(
+                "Access-Control-Allow-Origin",
+                "*");
+
+            res.set_content(
+                "Logout successful",
+                "text/plain");
         });
 
     server.Get(
