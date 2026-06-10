@@ -295,11 +295,12 @@ std::string DatabaseManager::getUserSolutionsJson(
     int userId)
 {
     std::string json = "[";
+
     std::string sql =
         "SELECT id,equation1,equation2,equation3,method,createdAt "
         "FROM Solutions WHERE userId=" +
         std::to_string(userId) +
-        ";";
+        " ORDER BY id DESC;";
 
     sqlite3_stmt *statement;
 
@@ -420,7 +421,7 @@ bool DatabaseManager::saveSolutionResult(
         std::to_string(z) +
         ");";
 
-        char *errorMessage = nullptr;
+    char *errorMessage = nullptr;
 
     int result =
         sqlite3_exec(
@@ -511,4 +512,31 @@ std::string DatabaseManager::getSolutionResultsJson(
     sqlite3_finalize(statement);
 
     return json;
+}
+bool DatabaseManager::deleteSolution(
+    int solutionId)
+{
+    std::string sql =
+        "DELETE FROM Solutions WHERE id=" +
+        std::to_string(solutionId) +
+        ";";
+
+    char *errorMessage = nullptr;
+
+    int result =
+        sqlite3_exec(
+            db,
+            sql.c_str(),
+            nullptr,
+            nullptr,
+            &errorMessage);
+
+    if (result != SQLITE_OK)
+    {
+        sqlite3_free(errorMessage);
+
+        return false;
+    }
+
+    return true;
 }

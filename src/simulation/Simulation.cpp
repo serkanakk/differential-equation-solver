@@ -3,7 +3,6 @@
 
 #include "../core/ImpulseHandler.h"
 
-#include <iostream>
 #include <fstream>
 
 Simulation::Simulation(
@@ -18,9 +17,6 @@ Simulation::Simulation(
 
 void Simulation::run()
 {
-    std::cout << "\nMethod: "
-              << methodName
-              << std::endl;
 
     ImpulseHandler impulseHandler;
 
@@ -44,11 +40,6 @@ void Simulation::run()
 
         if (impulseHandler.checkImpulse(next))
         {
-
-            std::cout
-                << "\n=== IMPULSE TRIGGERED ==="
-                << std::endl;
-
             next =
                 impulseHandler.applyImpulse(next);
         }
@@ -58,18 +49,7 @@ void Simulation::run()
         current = next;
     }
 
-    for (size_t i = 0; i < states.size(); i++)
-    {
-
-        std::cout
-            << "Step " << i
-            << " X: " << states[i].x
-            << " Y: " << states[i].y
-            << " Z: " << states[i].z
-            << std::endl;
-    }
-
-        std::ofstream file("results.csv");
+    std::ofstream file("results.csv");
     file << "Method," << methodName << "\n\n";
 
     file << "step,time,x,y,z\n";

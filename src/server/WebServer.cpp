@@ -11,7 +11,6 @@
 #include <sstream>
 #include <iostream>
 #include <string>
-#include <fstream>
 
 void WebServer::start()
 {
@@ -338,6 +337,46 @@ void WebServer::start()
             res.set_content(
                 "Logout successful",
                 "text/plain");
+        });
+
+    server.Get(
+        "/deleteSolution",
+        [&](const httplib::Request &req,
+            httplib::Response &res)
+        {
+            res.set_header(
+                "Access-Control-Allow-Origin",
+                "*");
+
+            if (!req.has_param("id"))
+            {
+                res.set_content(
+                    "Delete failed",
+                    "text/plain");
+
+                return;
+            }
+
+            int solutionId =
+                std::stoi(
+                    req.get_param_value("id"));
+
+            bool success =
+                database.deleteSolution(
+                    solutionId);
+
+            if (success)
+            {
+                res.set_content(
+                    "Delete successful",
+                    "text/plain");
+            }
+            else
+            {
+                res.set_content(
+                    "Delete failed",
+                    "text/plain");
+            }
         });
 
     server.Get(

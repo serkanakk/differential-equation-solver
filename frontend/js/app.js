@@ -1,10 +1,120 @@
-window.onbeforeunload = function () {
-    console.log("PAGE RELOADING");
-};
-
-console.log("APP JS LOADED");
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    function loadLastResult() {
+
+        const lastSolutionId =
+            sessionStorage.getItem(
+                "lastSolutionId");
+
+        fetch(
+            `http://localhost:8080/results?id=${lastSolutionId}`)
+            .then(response => response.json())
+            .then(graphData => {
+
+                let html = `
+<table class="results-table">
+
+<tr>
+    <th>Step</th>
+    <th>Time</th>
+    <th>X</th>
+    <th>Y</th>
+    <th>Z</th>
+</tr>
+`;
+
+                graphData.forEach(point => {
+
+                    html += `
+<tr>
+    <td>${point.step}</td>
+    <td>${point.time}</td>
+    <td>${point.x}</td>
+    <td>${point.y}</td>
+    <td>${point.z}</td>
+</tr>
+`;
+                });
+
+                html += "</table>";
+
+                document.getElementById(
+                    "resultBox").innerHTML = html;
+
+                const time = [];
+                const xValues = [];
+                const yValues = [];
+                const zValues = [];
+
+                graphData.forEach(point => {
+
+                    time.push(point.time);
+
+                    xValues.push(point.x);
+
+                    yValues.push(point.y);
+
+                    zValues.push(point.z);
+                });
+
+                const traceX = {
+                    x: time,
+                    y: xValues,
+                    mode: 'lines',
+                    name: 'X(t)'
+                };
+
+                const traceY = {
+                    x: time,
+                    y: yValues,
+                    mode: 'lines',
+                    name: 'Y(t)'
+                };
+
+                const traceZ = {
+                    x: time,
+                    y: zValues,
+                    mode: 'lines',
+                    name: 'Z(t)'
+                };
+
+                Plotly.newPlot(
+                    'graph',
+                    [traceX, traceY, traceZ]);
+            });
+    }
+
+
+
+
+
+    if (!sessionStorage.getItem("hasSolved")) {
+
+        sessionStorage.setItem(
+            "hasSolved",
+            "0");
+    }
+    const showPassword =
+        document.getElementById(
+            "showPassword");
+
+    if (showPassword) {
+
+        showPassword.addEventListener(
+            "change",
+            () => {
+
+                const passwordInput =
+                    document.getElementById(
+                        "password");
+
+                passwordInput.type =
+                    showPassword.checked
+                        ? "text"
+                        : "password";
+            });
+    }
 
     const loginButton = document.getElementById("loginBtn");
 
@@ -25,10 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.text();
 
-            alert(result);
 
             if (result === "Login successful") {
-                window.location.href = "dashboard.html";
+                window.location.href = "app.html";
             }
         });
     }
@@ -68,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
-            console.log("SOLVE CLICKED");
+
 
             const equation1 = document.getElementById("equation1").value;
             const equation2 = document.getElementById("equation2").value;
@@ -80,16 +189,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
-                body: `equation1=${equation1}&equation2=${equation2}&equation3=${equation3}&method=${method}`
+                body: `equation1=${encodeURIComponent(equation1)}&equation2=${encodeURIComponent(equation2)}&equation3=${encodeURIComponent(equation3)}&method=${encodeURIComponent(method)}`
             });
 
             const result = await response.text();
+
+
 
             const solutionIdMatch =
                 result.match(
                     /SOLUTION_ID:(\d+)/);
 
-            console.log(result);
+
 
             if (!solutionIdMatch) {
                 alert("NO SOLUTION ID");
@@ -98,12 +209,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const solutionId =
                 solutionIdMatch[1];
+            sessionStorage.setItem(
+                "hasSolved",
+                "1");
 
-            console.log(
-                "Solution ID:",
+            sessionStorage.setItem(
+                "lastSolutionId",
                 solutionId);
 
-            console.log("Backend response:", result);
 
             const resultBox =
                 document.getElementById("resultBox");
@@ -112,55 +225,68 @@ document.addEventListener("DOMContentLoaded", () => {
                 resultBox.innerText = result;
             }
 
-            const graphResponse =
-                await fetch(
-                    `http://localhost:8080/results?id=${solutionId}`);
 
-            const graphData =
-                await graphResponse.json();
-
-            const time = [];
-            const xValues = [];
-            const yValues = [];
-            const zValues = [];
-
-            graphData.forEach(point => {
-
-                time.push(point.time);
-
-                xValues.push(point.x);
-
-                yValues.push(point.y);
-
-                zValues.push(point.z);
-            });
-
-            const traceX = {
-                x: time,
-                y: xValues,
-                mode: 'lines',
-                name: 'X(t)'
-            };
-
-            const traceY = {
-                x: time,
-                y: yValues,
-                mode: 'lines',
-                name: 'Y(t)'
-            };
-
-            const traceZ = {
-                x: time,
-                y: zValues,
-                mode: 'lines',
-                name: 'Z(t)'
-            };
-
-            Plotly.newPlot(
-                'graph',
-                [traceX, traceY, traceZ]);
-            alert("GRAPH FINISHED");
-            return;
         });
+    }
+
+
+
+
+
+
+    if (
+        sessionStorage.getItem("hasSolved") === "1"
+    ) {
+
+        loadLastResult();
+    }
+
+
+    const logoutBtn =
+        document.getElementById(
+            "logoutBtn");
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener(
+            "click",
+            () => {
+
+                sessionStorage.setItem(
+                    "hasSolved",
+                    "0");
+
+                sessionStorage.removeItem(
+                    "lastSolutionId");
+
+                window.location.href =
+                    "login.html";
+            });
+    }
+    const clearBtn =
+        document.getElementById(
+            "clearBtn");
+
+    if (clearBtn) {
+
+        clearBtn.addEventListener(
+            "click",
+            () => {
+
+                sessionStorage.setItem(
+                    "hasSolved",
+                    "0");
+
+                sessionStorage.removeItem(
+                    "lastSolutionId");
+
+                document.getElementById(
+                    "resultBox").innerHTML =
+                    "No solution calculated yet.";
+
+                document.getElementById(
+                    "graph").innerHTML =
+                    "Graph will appear here.";
+            });
     }
 });

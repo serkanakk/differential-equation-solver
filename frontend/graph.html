@@ -52,10 +52,6 @@
             const data =
                 await response.json();
 
-            console.log("Solution ID:", solutionId);
-            console.log("Data:", data);
-            console.log("Length:", data.length);
-
             const time = [];
             const xValues = [];
             const yValues = [];
@@ -93,10 +89,6 @@
                 name: 'Z(t)'
             };
 
-            console.log(time);
-            console.log(xValues);
-            console.log(yValues);
-            console.log(zValues);
 
             Plotly.newPlot(
                 'graph',

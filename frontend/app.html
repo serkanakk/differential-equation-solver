@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differential Equation Solver</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <div class="navbar">
+
+            <div class="logo">
+                Differential Equation Solver
+            </div>
+
+            <div class="profile-area">
+
+                <button id="profileBtn">
+                    👤
+                </button>
+
+                <div id="profileMenu" class="profile-menu">
+
+                    <a href="#">
+                        Profile
+                    </a>
+
+                    <a href="#">
+                        Change Password
+                    </a>
+
+                    <a href="history.html">
+                        My History
+                    </a>
+
+                    <a href="#">
+                        Settings
+                    </a>
+
+                    <a href="#" id="logoutBtn">
+                        Logout
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="solver-card">
+
+            <h2>Solve Differential System</h2>
+
+            <input type="text" id="equation1" placeholder="Equation 1 : f1(x,y,z)">
+
+            <input type="text" id="equation2" placeholder="Equation 2 : f2(x,y,z)">
+
+            <input type="text" id="equation3" placeholder="Equation 3 : f3(x,y,z)">
+
+            <select id="method">
+
+                <option>Euler</option>
+
+                <option>Heun</option>
+
+                <option>RK4</option>
+
+            </select>
+
+            <button id="solveBtn" class="solve-button">
+
+                Solve
+
+            </button>
+            <button type="button" id="clearBtn">
+
+                Clear Results
+
+            </button>
+
+
+        </div>
+        <div class="results-card">
+
+            <h2>Results</h2>
+
+            <div id="resultBox">
+
+                No solution calculated yet.
+
+            </div>
+
+        </div>
+        <div class="graph-card">
+
+            <h2>Graph</h2>
+
+            <div id="graph">
+
+                Graph will appear here.
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const profileBtn =
+            document.getElementById(
+                "profileBtn");
+
+        const profileMenu =
+            document.getElementById(
+                "profileMenu");
+
+        profileBtn.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    profileMenu.style.display === "block"
+                ) {
+
+                    profileMenu.style.display =
+                        "none";
+                }
+                else {
+
+                    profileMenu.style.display =
+                        "block";
+                }
+            });
+
+    </script>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

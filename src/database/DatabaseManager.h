@@ -54,4 +54,7 @@ public:
 
     std::string getSolutionResultsJson(
         int solutionId);
+
+    bool deleteSolution(
+        int solutionId);
 };

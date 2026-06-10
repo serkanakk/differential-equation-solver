@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Results</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Solution Results</h1>
+
+        <div class="login-box">
+
+            <div id="resultsContainer">
+                Loading...
+            </div>
+
+            <button onclick="history.back()">
+                Back
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const params =
+            new URLSearchParams(
+                window.location.search);
+
+        const id =
+            params.get("id");
+
+        fetch(
+            `http://localhost:8080/results?id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+
+                let html = `
+<table class="results-table">
+
+    <tr>
+        <th>Step</th>
+        <th>Time</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+    </tr>
+`;
+
+                data.forEach(point => {
+
+                    html += `
+    <tr>
+
+        <td>${point.step}</td>
+
+        <td>${point.time}</td>
+
+        <td>${point.x}</td>
+
+        <td>${point.y}</td>
+
+        <td>${point.z}</td>
+
+    </tr>
+    `;
+                });
+
+                html += "</table>";
+
+                document.getElementById(
+                    "resultsContainer")
+                    .innerHTML = html;
+            });
+
+    </script>
+
+</body>
+
+</html>

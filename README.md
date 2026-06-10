@@ -1,6 +1,6 @@
 # Differential Equation Solver
 
-A web-based differential equation solver implemented in C++.
+A web-based differential equation solver implemented in C++ with a custom HTTP server, SQLite database integration, and dynamic frontend visualization.
 
 ## Features
 
@@ -8,42 +8,48 @@ A web-based differential equation solver implemented in C++.
 
 * User Registration
 * User Login Authentication
+* User Logout
+* Session-Based User Access
 * SQLite Database Integration
 
 ### Differential Equation Solvers
 
 * Euler Method
 * Heun Method
-* Runge-Kutta 4th Order Method
+* Runge-Kutta 4th Order Method (RK4)
 * Runtime Equation Parsing
 * Impulsive Differential Systems
 
 ### Solution Management
 
 * Save Solutions to Database
-* View User Solution History
+* User-Specific Solution History
+* Delete Saved Solutions
+* View Numerical Results
 * CSV Export
 
 ### Frontend Interface
 
 * Login Page
-* Register Page
-* Dashboard Page
-* Solve Equation Page
-* History Page
+* Registration Page
+* Main Solver Interface
+* Solution History Page
+* Results Visualization Page
 * Graph Visualization Page
 
 ### Data Visualization
 
 * Plotly.js Integration
-* Dynamic Solution Graph Display
+* Dynamic Graph Generation
 * X(t), Y(t), and Z(t) Visualization
+* Persistent Solution Retrieval
 
 ### Web Server
 
 * HTTP Server Infrastructure using cpp-httplib
-* Localhost API Support
 * REST-style API Endpoints
+* Localhost API Support
+* Frontend-Backend Communication
 
 ## Technologies
 
@@ -60,50 +66,53 @@ A web-based differential equation solver implemented in C++.
 
 ## Project Architecture
 
-Frontend (HTML/CSS/JS)
+Frontend (HTML/CSS/JavaScript)
+
 ↓
+
 HTTP API (cpp-httplib)
+
 ↓
+
 C++ Backend
+
 ↓
+
 SQLite Database
 
 ## Project Status
 
 ### Completed
 
-* Numerical solving algorithms
 * Euler Method implementation
 * Heun Method implementation
 * Runge-Kutta 4th Order implementation
 * Impulsive differential system support
-* User registration and login
+* Runtime equation parsing
+* User registration and login system
+* User logout functionality
 * SQLite database integration
-* Solution history management
+* Solution persistence
+* User-specific solution history
+* Solution deletion
 * CSV export functionality
 * Frontend user interface
 * HTTP server infrastructure
-* Frontend-backend communication
 * REST API endpoints
+* Frontend-backend communication
 * Dynamic graph visualization
+* Numerical result visualization
 * Plotly.js integration
-* History page integration
-* Solution persistence and retrieval
 
-### Known Issues
-
-* Registration page does not automatically redirect to login page after successful registration
-* Solve page result output is not persistently displayed in the result box
-
-### Planned Improvements
+### Future Improvements
 
 * Improved UI/UX design
 * Interactive graph controls
-* Per-solution graph storage and visualization
-* Enhanced dashboard experience
-* Better error handling and validation
-* Responsive design improvements
+* Enhanced error handling and validation
+* Responsive design support
+* Advanced equation templates
+* Multi-user session improvements
 
 ## Latest Update
 
-Implemented complete frontend-backend integration using cpp-httplib. Added solution history retrieval from SQLite, CSV-based result storage, REST API endpoints, and dynamic graph visualization with Plotly.js. Users can now solve differential equation systems, save results, review solution history, and visualize numerical solutions directly in the web interface.
+Implemented complete frontend-backend integration using cpp-httplib and SQLite. Added user-specific solution history, solution deletion, persistent result retrieval, Plotly-based graph visualization, session management, and automatic loading of saved numerical solutions. Users can solve differential equation systems, store solutions, review historical computations, visualize graphs, and inspect numerical results through a web interface.

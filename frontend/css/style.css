@@ -6,7 +6,11 @@
 }
 
 body {
-    background: #1e293b;
+    background:
+        linear-gradient(135deg,
+            #0f172a,
+            #1e3a8a);
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -16,21 +20,30 @@ body {
 
 .container {
     width: 100%;
-    max-width: 700px;
+    max-width: 550px;
 }
 
 .container h1 {
     color: white;
+
     text-align: center;
+
     margin-bottom: 20px;
+
+    font-size: 32px;
+
+    letter-spacing: 1px;
 }
 
 .login-box {
     background: white;
+
     padding: 30px;
+
     border-radius: 12px;
-    /*max-height: 80vh;
-    overflow-y: auto;*/
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .login-box h2 {
@@ -38,16 +51,40 @@ body {
     margin-bottom: 20px;
 }
 
-input {
+input,
+select {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 15px;
 }
 
 button {
     width: 100%;
     padding: 12px;
+
     cursor: pointer;
+
+    background: #2563eb;
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
 }
 
 p {
@@ -69,4 +106,331 @@ p {
     text-align: left;
 
     white-space: pre-wrap;
+
+    background: #f8fafc;
+
+    border-radius: 8px;
+
+    font-family: Consolas, monospace;
+}
+
+a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.history-card {
+    background: #f8fafc;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid #dbeafe;
+
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.history-card p {
+
+    margin-bottom: 8px;
+}
+
+.button-group {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 10px;
+}
+
+.delete-btn {
+
+    background: #dc2626;
+}
+
+.delete-btn:hover {
+
+    background: #b91c1c;
+}
+
+
+.history-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.10);
+}
+
+.button-group button {
+
+    flex: 1;
+
+    font-weight: bold;
+
+    letter-spacing: 0.5px;
+}
+
+.subtitle {
+
+    text-align: center;
+
+    color: #64748b;
+
+    margin-bottom: 20px;
+
+    margin-top: -10px;
+
+    font-size: 14px;
+}
+
+.show-password {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+
+    color: #475569;
+}
+
+.show-password input {
+
+    width: auto;
+
+    margin: 0;
+}
+
+.app-container {
+
+    width: 100%;
+
+    max-width: 1000px;
+}
+
+.navbar {
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 25px 30px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+
+    font-size: 36px;
+
+    font-weight: bold;
+
+    color: #111827;
+}
+
+.profile-area {
+
+    position: relative;
+}
+
+#profileBtn {
+
+    width: 50px;
+
+    height: 50px;
+
+    border-radius: 50%;
+
+    font-size: 20px;
+
+    padding: 0;
+}
+
+.profile-menu {
+
+    display: none;
+
+    position: absolute;
+
+    right: 0;
+
+    top: 60px;
+
+    background: white;
+
+    border-radius: 10px;
+
+    min-width: 200px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
+
+    overflow: hidden;
+}
+
+.profile-menu a {
+
+    display: block;
+
+    padding: 14px 18px;
+
+    color: #111827;
+
+    text-decoration: none;
+
+    font-weight: 500;
+
+    font-size: 15px;
+
+    transition: 0.2s;
+}
+
+.profile-menu a:hover {
+
+    background: #f1f5f9;
+
+    color: #2563eb;
+}
+
+.solver-card {
+
+    background: white;
+
+    margin-top: 25px;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.solver-card h2 {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+    color: #111827;
+}
+
+.results-card {
+
+    background: white;
+
+    margin-top: 20px;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.results-card h2 {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.graph-card {
+
+    background: white;
+
+    margin-top: 20px;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.graph-card h2 {
+
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+#graph {
+
+    height: 400px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: #64748b;
+}
+
+.results-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+}
+
+.results-table th,
+.results-table td {
+
+    border: 1px solid #cbd5e1;
+
+    padding: 12px;
+
+    text-align: center;
+}
+
+.results-table th {
+
+    background: #2563eb;
+
+    color: white;
+
+    font-weight: bold;
+}
+
+.results-table tr:nth-child(even) {
+
+    background: #f8fafc;
+}
+
+.results-table tr:hover {
+
+    background: #dbeafe;
 }
